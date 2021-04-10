@@ -10,7 +10,7 @@ Distance = 5.
 PrevCursor = None
 At = np.array([0.,0.,0.])
 
-click_mode = 'N' # 0 : initial, 1 : Left click, 2 : Right click
+click_mode = 'N' # N : initial, L : Left click, R : Right click
 window_mode = 0 # 0 : perspective, 1 : ortho
 zoom = 0
 scroll_buffer = 0
