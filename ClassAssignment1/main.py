@@ -10,7 +10,7 @@ Distance = 5.
 PrevCursor = None
 At = np.array([0.,0.,0.])
 
-click_mode = 'N' # N : initial, L : Left click, R : Right click
+click_mode = 'N' # 0 : initial, 1 : Left click, 2 : Right click
 window_mode = 0 # 0 : perspective, 1 : ortho
 zoom = 0
 scroll_buffer = 0
@@ -40,7 +40,7 @@ def scroll_callback(window, xoffset, yoffset):
     scroll_buffer+=zoom
     Distance *= 0.99**int(scroll_buffer)
     scroll_buffer-=int(scroll_buffer)
-    
+
     
 def key_callback(window, key, scancode, action, mods):
     global window_mode
@@ -116,7 +116,7 @@ def render():
     if(window_mode==0):
         gluPerspective(45, 1, .001, 900)
     elif(window_mode==1):
-        glOrtho(-5,5, -5,5, .001,900)
+        glOrtho(-5,5, -5,5, -10,900)
 
     eyePoint = (Distance*np.sin(Azimuth)*np.cos(Elevation),Distance*np.sin(Elevation),Distance*np.cos(Azimuth)*np.cos(Elevation)) + At
     gluLookAt(*eyePoint, *At, 0,1,0)
@@ -157,7 +157,7 @@ def main():
         elif click_mode=='R':
             w = np.array([np.sin(Azimuth)*np.cos(Elevation),np.sin(Elevation),np.cos(Azimuth)*np.cos(Elevation)])
             w = w / np.sqrt(w @ w)
-            u = np.cross((0,np.cos(Elevation),0), w)
+            u = np.cross((0,1,0), w)
             u = u / np.sqrt(u @ u)
             v = np.cross(w, u)
             
