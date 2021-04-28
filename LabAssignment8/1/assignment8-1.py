@@ -4,7 +4,6 @@ from OpenGL.GLU import *
 import numpy as np
 gCamAng = 0
 gComposedM = np.identity(4)
-x = 0
 
 def render(M, camAng):
  # enable depth test
@@ -16,7 +15,6 @@ def render(M, camAng):
  # rotate "camera" position to see this 3D space better
     gluLookAt(.1*np.sin(camAng),.1, .1*np.cos(camAng), 0,0,0, 0,1,0)
  # draw coordinate: x in red, y in green, z in blue
-    glTranslatef(x,0,0)
     glBegin(GL_LINES)
     glColor3ub(255, 0, 0)
     glVertex3fv(np.array([0.,0.,0.]))
@@ -38,7 +36,7 @@ def render(M, camAng):
  
 def key_callback(window, key, scancode, action, mods):
 
-    global gCamAng, gComposedM, x
+    global gCamAng, gComposedM
     deg = 0
     
     if action==glfw.PRESS or action==glfw.REPEAT:
@@ -48,41 +46,44 @@ def key_callback(window, key, scancode, action, mods):
             gCamAng += np.radians(10)
             
         elif key==glfw.KEY_Q:
-            x -= .1
-            #gComposedM = np.array([[1.,0.,0.,.1],
-            #                      [0.,1.,0.,0.],
-            #                      [0.,0.,1.,.0],
-            #                      [0.,0.,0.,1.]])
+            gComposedM = np.array([[1.,0.,0.,-.1],
+                                  [0.,1.,0.,0.],
+                                  [0.,0.,1.,.0],
+                                  [0.,0.,0.,1.]]) @ gComposedM
         elif key==glfw.KEY_E:
-            x += .1
+            gComposedM = np.array([[1.,0.,0.,.1],
+                                  [0.,1.,0.,0.],
+                                  [0.,0.,1.,.0],
+                                  [0.,0.,0.,1.]]) @ gComposedM
         elif key==glfw.KEY_A:
             deg = -10
             th = np.radians(deg)
-            gComposedM = np.array([[1., 0., 0., 0.],
-                                   [0., np.cos(th), -np.sin(th), 0.],
-                                   [0.,np.sin(th), np.cos(th), 0.],
-                                   [0., 0., 0., 1.]]) @ gComposedM
+            gComposedM = gComposedM @ np.array([[np.cos(th), 0., np.sin(th), 0.],
+                                   [0., 1 , 0, 0.],
+                                   [-np.sin(th),0, np.cos(th), 0.],
+                                   [0., 0., 0., 1.]])
         elif key==glfw.KEY_D:
             deg = 10
             th = np.radians(deg)
-            gComposedM = np.array([[1., 0., 0., 0.],
-                                   [0., np.cos(th), -np.sin(th), 0.],
-                                   [0.,np.sin(th), np.cos(th), 0.],
-                                   [0., 0., 0., 1.]]) @ gComposedM
+            gComposedM = gComposedM @ np.array([[np.cos(th), 0., np.sin(th), 0.],
+                                   [0., 1 , 0, 0.],
+                                   [-np.sin(th),0, np.cos(th), 0.],
+                                   [0., 0., 0., 1.]])
         elif key==glfw.KEY_W:
             deg = -10
             th = np.radians(deg)
-            gComposedM = np.array([[np.cos(th), 0., -np.sin(th), 0.],
-                                   [0., 1 , 0, 0.],
-                                   [np.sin(th),0, np.cos(th), 0.],
-                                   [0., 0., 0., 1.]]) @ gComposedM
+            gComposedM = gComposedM @ np.array([[1., 0., 0., 0.],
+                                   [0., np.cos(th), -np.sin(th), 0.],
+                                   [0.,np.sin(th), np.cos(th), 0.],
+                                   [0., 0., 0., 1.]]) 
         elif key==glfw.KEY_S:
             deg = 10
             th = np.radians(deg)
-            gComposedM = np.array([[np.cos(th), 0., -np.sin(th), 0.],
-                                   [0., 1 , 0, 0.],
-                                   [np.sin(th),0, np.cos(th), 0.],
-                                   [0., 0., 0., 1.]]) @ gComposedM
+            gComposedM = gComposedM @ np.array([[1., 0., 0., 0.],
+                                   [0., np.cos(th), -np.sin(th), 0.],
+                                   [0.,np.sin(th), np.cos(th), 0.],
+                                   [0., 0., 0., 1.]])
+            
 
 def drawFrame():
     glBegin(GL_LINES)

@@ -40,7 +40,7 @@ def render():
      
  # green arm transformation
      glPushMatrix()
-     glTranslatef(.5, 0, .0) 
+     glTranslatef(.5, 0, .02) 
      glRotatef(t*(180/np.pi), 0, 0, 1)#f
      drawFrame()
 # green arm drawing
