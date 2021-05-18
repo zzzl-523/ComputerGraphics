@@ -76,7 +76,7 @@ def render():
     
 
 def button_callback(window, button, action, mod):
-    global p0, p1, gEditingPoint
+    global p0, p1, p2, p3, gEditingPoint
     if button==glfw.MOUSE_BUTTON_LEFT:
         x, y = glfw.get_cursor_pos(window)
         y = 480 - y
@@ -93,7 +93,7 @@ def button_callback(window, button, action, mod):
             gEditingPoint = ''
 
 def cursor_callback(window, xpos, ypos):
-    global p0, p1, gEditingPoint
+    global p0, p1, p2, p3, gEditingPoint
     ypos = 480 - ypos
     if gEditingPoint=='p0':
         p0[0]=xpos; p0[1]=ypos
