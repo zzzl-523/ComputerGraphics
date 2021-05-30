@@ -171,9 +171,9 @@ def drop_callback(window, paths):
     drag_check = 1
     get_frame_cnt = str(frame_cnt) ##
     Motion_list = motion
-    
-    print(st)
-    print("File name : " + Path)
+
+    file_name=Path.split('\\')
+    print("File name : " + file_name[len(file_name)-1])
     print("Number of frames : " + str(frame_cnt))
     print("FPS (which is 1/FrameTime) : " + str(1.0/float(frame_time)))
     print("Number of joints : " + str(joints_cnt))
